@@ -5,7 +5,7 @@ root_dir=$(pwd)
 
 if [ $# -ne 2 ]; then
 	echo
-	echo "usage: $0 version distribution linux_version"
+	echo "usage: $0 jdk_version node_version"
 	exit -1
 fi
 
