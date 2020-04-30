@@ -2,7 +2,7 @@ name: Docker build
  
 on:
   push:
-    branches:    
+    branches:
     - master 
 
 jobs:
@@ -20,4 +20,5 @@ jobs:
     
       - name: Build and push image
         run: |
-          bash -x docker_push.sh ${{ matrix.jdk }} ${{ matrix.node }} && bash -x docker_push.sh ${{ matrix.jdk }} ${{ matrix.node }}
+          echo "::set-env name=DOCKER_USERNAME::${{ secrets.DOCKER_USERNAME }}"
+          bash -x docker_push.sh ${{ matrix.jdk }} ${{ matrix.node }} && bash -x docker_push.sh ${{ matrix.jdk }} ${{ matrix.node }} ${{ secrets.DOCKER_PASSWORD }}
