@@ -1,0 +1,23 @@
+name: Docker build
+ 
+on:
+  push:
+    branches:    
+    - master 
+
+jobs:
+  docker-build-push:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        jdk: [8, 11]
+        node: [10, 12, 14]
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+    
+      - name: Build and push image
+        run: |
+          bash -x docker_push.sh ${{ matrix.jdk }} ${{ matrix.node }} && bash -x docker_push.sh ${{ matrix.jdk }} ${{ matrix.node }}
