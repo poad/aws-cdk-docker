@@ -3,15 +3,9 @@ set -o pipefail
 
 root_dir=$(pwd)
 
-if [ $# -ne 3 ]; then
-	echo
-	echo "usage: $0 version distribution linux_version"
-	exit -1
-fi
-
 if [ $# -ne 2 ]; then
 	echo
-	echo "usage: $0 version distribution linux_version"
+	echo "usage: $0 jdk_version node_version"
 	exit -1
 fi
 
