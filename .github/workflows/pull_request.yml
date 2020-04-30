@@ -17,9 +17,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-    
+
       - name: Build image
         run: |
-          echo ${{ matrix.jdk }}
-          echo ${{ matrix.node }}
+          echo "::set-env name=DOCKER_USERNAME::${{ secrets.DOCKER_USERNAME }}"
           bash -x docker_build.sh ${{ matrix.jdk }} ${{ matrix.node }}

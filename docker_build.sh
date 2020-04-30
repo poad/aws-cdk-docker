@@ -12,6 +12,6 @@ fi
 JAVA_VERSION=$1
 NODE_VERSION=$2
 
-IMAGE_NAME=poad/aws-cdk-docker:node-${NODE_VERSION}-jdk${JAVA_VERSION}
+IMAGE_NAME=${DOCKER_USERNAME}/aws-cdk-docker:node-${NODE_VERSION}-jdk${JAVA_VERSION}
 
 docker build --rm --build-arg JAVA_VERSION=${JAVA_VERSION} --build-arg NODE_VERSION=${NODE_VERSION} -t ${IMAGE_NAME} .
