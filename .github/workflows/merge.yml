@@ -19,12 +19,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-    
       - name: Set environment variables
         run: echo "::set-env name=DOCKER_USERNAME::${{ secrets.DOCKER_USERNAME }}"
       - name: Build image
-        run: bash -x docker_build.sh ${{ matrix.jdk }} ${{ matrix.node }} 
+        run: docker build --rm --build-arg JAVA_VERSION=${{ matrix.jdk }} --build-arg NODE_VERSION=${{ matrix.node }} -t ${{ secrets.DOCKER_USERNAME }}/aws-cdk-docker:node-${{ matrix.node }}-jdk${{ matrix.jdk }} .
       - name: Docker login
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
       - name: Build and push image
-        run: bash -x docker_push.sh ${{ matrix.jdk }} ${{ matrix.node }}
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/aws-cdk-docker:node-${{ matrix.node }}-jdk${{ matrix.jdk }}
