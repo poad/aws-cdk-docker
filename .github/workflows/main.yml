@@ -8,93 +8,91 @@ on:
     branches:
       - master
   schedule:
-    - cron:  '0 0 * * 2'  
-    name: Docker image build push
+    - cron:  '0 0 * * 2'
 
-  jobs:
-    docker_build:
-      runs-on: ubuntu-latest
-      strategy:
-        matrix:
-          versions: [
-            { java: '8', node: '10', ubuntu: 'xenial' },
-            { java: '8', node: '10', ubuntu: 'bionic' },
-            { java: '8', node: '10', ubuntu: 'focal' },
-            { java: '11', node: '10', ubuntu: 'xenial' },
-            { java: '11', node: '10', ubuntu: 'bionic' },
-            { java: '11', node: '10', ubuntu: 'focal' },
-            { java: '14', node: '10', ubuntu: 'xenial' },
-            { java: '14', node: '10', ubuntu: 'bionic' },
-            { java: '14', node: '10', ubuntu: 'focal' },
-            { java: '8', node: '12', ubuntu: 'xenial' },
-            { java: '8', node: '12', ubuntu: 'bionic' },
-            { java: '8', node: '12', ubuntu: 'focal' },
-            { java: '11', node: '12', ubuntu: 'xenial' },
-            { java: '11', node: '12', ubuntu: 'bionic' },
-            { java: '11', node: '12', ubuntu: 'focal' },
-            { java: '14', node: '12', ubuntu: 'xenial' },
-            { java: '14', node: '12', ubuntu: 'bionic' },
-            { java: '14', node: '12', ubuntu: 'focal' },
-            { java: '8', node: '14', ubuntu: 'xenial' },
-            { java: '8', node: '14', ubuntu: 'bionic' },
-            { java: '8', node: '14', ubuntu: 'focal' },
-            { java: '11', node: '14', ubuntu: 'xenial' },
-            { java: '11', node: '14', ubuntu: 'bionic' },
-            { java: '11', node: '14', ubuntu: 'focal' },
-            { java: '14', node: '14', ubuntu: 'xenial' },
-            { java: '14', node: '14', ubuntu: 'bionic' },
-            { java: '14', node: '14', ubuntu: 'focal' }
-          ]
-      steps:
-      - uses: actions/checkout@master
-        if: github.event_name == 'pull_request' && github.event_name != 'schedule'
-      - name: "Build java: ${{ matrix.versions.java }}  Node.js: ${{ matrix.versions.node }}  Ubuntu: ${{ matrix.versions.ubuntu }}"
-        if: github.event_name == 'pull_request' && github.event_name != 'schedule'
-        run: |
-          IMAGRE_NAME=poad/aws-cdk-docker:${{ matrix.versions.java }}-{{ matrix.versions.node }}-${{ matrix.versions.ubuntu }} && \
-          docker build --build-arg JAVA_VERSION=${{ matrix.versions.java }} --build-arg NODE_VERSION=${{ matrix.versions.node }} --build-arg UBUNTU_VERSION=${{ matrix.versions.ubuntu }} -t ${IMAGRE_NAME} .
-  
-    docker_push:
-      runs-on: ubuntu-latest
-      strategy:
-        matrix:
-          versions: [
-            { java: '8', node: '10', ubuntu: 'xenial' },
-            { java: '8', node: '10', ubuntu: 'bionic' },
-            { java: '8', node: '10', ubuntu: 'focal' },
-            { java: '11', node: '10', ubuntu: 'xenial' },
-            { java: '11', node: '10', ubuntu: 'bionic' },
-            { java: '11', node: '10', ubuntu: 'focal' },
-            { java: '14', node: '10', ubuntu: 'xenial' },
-            { java: '14', node: '10', ubuntu: 'bionic' },
-            { java: '14', node: '10', ubuntu: 'focal' },
-            { java: '8', node: '12', ubuntu: 'xenial' },
-            { java: '8', node: '12', ubuntu: 'bionic' },
-            { java: '8', node: '12', ubuntu: 'focal' },
-            { java: '11', node: '12', ubuntu: 'xenial' },
-            { java: '11', node: '12', ubuntu: 'bionic' },
-            { java: '11', node: '12', ubuntu: 'focal' },
-            { java: '14', node: '12', ubuntu: 'xenial' },
-            { java: '14', node: '12', ubuntu: 'bionic' },
-            { java: '14', node: '12', ubuntu: 'focal' },
-            { java: '8', node: '14', ubuntu: 'xenial' },
-            { java: '8', node: '14', ubuntu: 'bionic' },
-            { java: '8', node: '14', ubuntu: 'focal' },
-            { java: '11', node: '14', ubuntu: 'xenial' },
-            { java: '11', node: '14', ubuntu: 'bionic' },
-            { java: '11', node: '14', ubuntu: 'focal' },
-            { java: '14', node: '14', ubuntu: 'xenial' },
-            { java: '14', node: '14', ubuntu: 'bionic' },
-            { java: '14', node: '14', ubuntu: 'focal' }
-          ]
-      steps:
-      - uses: actions/checkout@master
-        if: github.event_name != 'pull_request' && github.event_name != 'schedule' && env.CHANGE_STATE != 'changed'
-      - name: Build ${{ matrix.dir_tag.tag }} and push
-        if: github.event_name != 'pull_request' && github.event_name != 'schedule' && env.CHANGE_STATE != 'changed'
-        run: |
-          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u poad --password-stdin && \
-          IMAGRE_NAME=poad/aws-cdk-docker:${{ matrix.versions.java }}-{{ matrix.versions.node }}-${{ matrix.versions.ubuntu }} && \
-          docker build --build-arg JAVA_VERSION=${{ matrix.versions.java }} --build-arg NODE_VERSION=${{ matrix.versions.node }} --build-arg UBUNTU_VERSION=${{ matrix.versions.ubuntu }} -t ${IMAGRE_NAME} . && \
-          docker push ${IMAGRE_NAME}
-  
+jobs:
+  docker_build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        versions: [
+          { java: '8', node: '10', ubuntu: 'xenial' },
+          { java: '8', node: '10', ubuntu: 'bionic' },
+          { java: '8', node: '10', ubuntu: 'focal' },
+          { java: '11', node: '10', ubuntu: 'xenial' },
+          { java: '11', node: '10', ubuntu: 'bionic' },
+          { java: '11', node: '10', ubuntu: 'focal' },
+          { java: '14', node: '10', ubuntu: 'xenial' },
+          { java: '14', node: '10', ubuntu: 'bionic' },
+          { java: '14', node: '10', ubuntu: 'focal' },
+          { java: '8', node: '12', ubuntu: 'xenial' },
+          { java: '8', node: '12', ubuntu: 'bionic' },
+          { java: '8', node: '12', ubuntu: 'focal' },
+          { java: '11', node: '12', ubuntu: 'xenial' },
+          { java: '11', node: '12', ubuntu: 'bionic' },
+          { java: '11', node: '12', ubuntu: 'focal' },
+          { java: '14', node: '12', ubuntu: 'xenial' },
+          { java: '14', node: '12', ubuntu: 'bionic' },
+          { java: '14', node: '12', ubuntu: 'focal' },
+          { java: '8', node: '14', ubuntu: 'xenial' },
+          { java: '8', node: '14', ubuntu: 'bionic' },
+          { java: '8', node: '14', ubuntu: 'focal' },
+          { java: '11', node: '14', ubuntu: 'xenial' },
+          { java: '11', node: '14', ubuntu: 'bionic' },
+          { java: '11', node: '14', ubuntu: 'focal' },
+          { java: '14', node: '14', ubuntu: 'xenial' },
+          { java: '14', node: '14', ubuntu: 'bionic' },
+          { java: '14', node: '14', ubuntu: 'focal' }
+        ]
+    steps:
+    - uses: actions/checkout@master
+      if: github.event_name == 'pull_request' && github.event_name != 'schedule'
+    - name: "Build java: ${{ matrix.versions.java }}  Node.js: ${{ matrix.versions.node }}  Ubuntu: ${{ matrix.versions.ubuntu }}"
+      if: github.event_name == 'pull_request' && github.event_name != 'schedule'
+      run: |
+        IMAGRE_NAME=poad/aws-cdk-docker:${{ matrix.versions.java }}-{{ matrix.versions.node }}-${{ matrix.versions.ubuntu }} && \
+        docker build --build-arg JAVA_VERSION=${{ matrix.versions.java }} --build-arg NODE_VERSION=${{ matrix.versions.node }} --build-arg UBUNTU_VERSION=${{ matrix.versions.ubuntu }} -t ${IMAGRE_NAME} .
+
+  docker_push:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        versions: [
+          { java: '8', node: '10', ubuntu: 'xenial' },
+          { java: '8', node: '10', ubuntu: 'bionic' },
+          { java: '8', node: '10', ubuntu: 'focal' },
+          { java: '11', node: '10', ubuntu: 'xenial' },
+          { java: '11', node: '10', ubuntu: 'bionic' },
+          { java: '11', node: '10', ubuntu: 'focal' },
+          { java: '14', node: '10', ubuntu: 'xenial' },
+          { java: '14', node: '10', ubuntu: 'bionic' },
+          { java: '14', node: '10', ubuntu: 'focal' },
+          { java: '8', node: '12', ubuntu: 'xenial' },
+          { java: '8', node: '12', ubuntu: 'bionic' },
+          { java: '8', node: '12', ubuntu: 'focal' },
+          { java: '11', node: '12', ubuntu: 'xenial' },
+          { java: '11', node: '12', ubuntu: 'bionic' },
+          { java: '11', node: '12', ubuntu: 'focal' },
+          { java: '14', node: '12', ubuntu: 'xenial' },
+          { java: '14', node: '12', ubuntu: 'bionic' },
+          { java: '14', node: '12', ubuntu: 'focal' },
+          { java: '8', node: '14', ubuntu: 'xenial' },
+          { java: '8', node: '14', ubuntu: 'bionic' },
+          { java: '8', node: '14', ubuntu: 'focal' },
+          { java: '11', node: '14', ubuntu: 'xenial' },
+          { java: '11', node: '14', ubuntu: 'bionic' },
+          { java: '11', node: '14', ubuntu: 'focal' },
+          { java: '14', node: '14', ubuntu: 'xenial' },
+          { java: '14', node: '14', ubuntu: 'bionic' },
+          { java: '14', node: '14', ubuntu: 'focal' }
+        ]
+    steps:
+    - uses: actions/checkout@master
+      if: github.event_name != 'pull_request' && github.event_name != 'schedule' && env.CHANGE_STATE != 'changed'
+    - name: Build ${{ matrix.dir_tag.tag }} and push
+      if: github.event_name != 'pull_request' && github.event_name != 'schedule' && env.CHANGE_STATE != 'changed'
+      run: |
+        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u poad --password-stdin && \
+        IMAGRE_NAME=poad/aws-cdk-docker:${{ matrix.versions.java }}-{{ matrix.versions.node }}-${{ matrix.versions.ubuntu }} && \
+        docker build --build-arg JAVA_VERSION=${{ matrix.versions.java }} --build-arg NODE_VERSION=${{ matrix.versions.node }} --build-arg UBUNTU_VERSION=${{ matrix.versions.ubuntu }} -t ${IMAGRE_NAME} . && \
+        docker push ${IMAGRE_NAME}
