@@ -1,5 +1,6 @@
 ARG JAVA_VERSION=11
 ARG NODE_VERSION=14
+ARG UBUNTU_VERSION=focal
 
 FROM buildpack-deps:bionic-curl as downloader
 
@@ -14,7 +15,7 @@ RUN apt-get update -qq \
  && unzip awscliv2.zip
 
 
-FROM ubuntu:focal
+FROM ubuntu:${UBUNTU_VERSION}
 
 ARG JAVA_VERSION
 ARG NODE_VERSION
