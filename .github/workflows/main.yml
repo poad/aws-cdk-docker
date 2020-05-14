@@ -50,7 +50,7 @@ jobs:
     - name: "Build java: ${{ matrix.versions.java }}  Node.js: ${{ matrix.versions.node }}  Ubuntu: ${{ matrix.versions.ubuntu }}"
       if: github.event_name == 'pull_request' && github.event_name != 'schedule'
       run: |
-        IMAGRE_NAME=poad/aws-cdk-docker:${{ matrix.versions.java }}-{{ matrix.versions.node }}-${{ matrix.versions.ubuntu }} && \
+        IMAGRE_NAME=poad/aws-cdk-docker:node${{ matrix.versions.node }}-jdk${{ matrix.versions.java }}-${{ matrix.versions.ubuntu }} && \
         docker build --build-arg JAVA_VERSION=${{ matrix.versions.java }} --build-arg NODE_VERSION=${{ matrix.versions.node }} --build-arg UBUNTU_VERSION=${{ matrix.versions.ubuntu }} -t ${IMAGRE_NAME} .
 
   docker_push:
@@ -93,6 +93,6 @@ jobs:
       if: github.event_name != 'pull_request' && github.event_name != 'schedule' && env.CHANGE_STATE != 'changed'
       run: |
         echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u poad --password-stdin && \
-        IMAGRE_NAME=poad/aws-cdk-docker:${{ matrix.versions.java }}-{{ matrix.versions.node }}-${{ matrix.versions.ubuntu }} && \
+        IMAGRE_NAME=poad/aws-cdk-docker:node${{ matrix.versions.node }}-jdk${{ matrix.versions.java }}-${{ matrix.versions.ubuntu }} && \
         docker build --build-arg JAVA_VERSION=${{ matrix.versions.java }} --build-arg NODE_VERSION=${{ matrix.versions.node }} --build-arg UBUNTU_VERSION=${{ matrix.versions.ubuntu }} -t ${IMAGRE_NAME} . && \
         docker push ${IMAGRE_NAME}
