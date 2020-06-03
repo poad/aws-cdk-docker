@@ -1,11 +1,11 @@
 ARG JAVA_VERSION=11
 ARG NODE_VERSION=14
 ARG UBUNTU_VERSION=focal
-ARG PYTHON_PIP_VERSION="20.1"
+ARG PYTHON_PIP_VERSION="20.1.1"
 # https://github.com/docker-library/python/blob/master/3.8/buster/Dockerfile
-ARG PIP_DOWNLOAD_HASH="1fe530e9e3d800be94e04f6428460fc4fb94f5a9"
+ARG PIP_DOWNLOAD_HASH="eff16c878c7fd6b688b9b4c4267695cf1a0bf01b"
 ARG PYTHON_GET_PIP_URL=https://github.com/pypa/get-pip/raw/${PIP_DOWNLOAD_HASH}/get-pip.py
-ARG PYTHON_GET_PIP_SHA256="ce486cddac44e99496a702aa5c06c5028414ef48fdfd5242cd2fe559b13d4348"
+ARG PYTHON_GET_PIP_SHA256="b3153ec0cf7b7bbf9556932aa37e4981c35dc2a2c501d70d91d2795aa532be79"
 
 FROM buildpack-deps:bionic-curl as downloader
 
