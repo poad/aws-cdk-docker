@@ -45,6 +45,7 @@ Installed Python 3.8.x with the apt package.
 ## Useage
 
 ```$sh
-docker run --name cdk -it -v $(pwd):/work -v ~/.aws:/root/.aws poad/aws-cdk-docker:node-14-jdk11 bash
+docker run --name cdk -it -v $(pwd):/work -v ~/.aws:/home/cdk/.aws poad/aws-cdk-docker:node-14-jdk11 bash
+pipenv shell
 cd /work
 ```
