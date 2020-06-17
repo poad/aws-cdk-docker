@@ -88,4 +88,14 @@ RUN mkdir -p /usr/share/man/man1 \
     && ln -s /usr/bin/python3 /usr/bin/python \
     ; \
   fi \
+ && pip install --upgrade pipenv \
  && rm -rf /tmp/*
+
+RUN groupadd --gid 1000 cdk \
+  && useradd --uid 1000 --gid cdk --shell /bin/bash --create-home cdk
+
+USER cdk
+
+WORKDIR /home/cdk
+
+RUN pipenv install pip
