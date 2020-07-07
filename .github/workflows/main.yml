@@ -88,9 +88,9 @@ jobs:
         ]
     steps:
     - uses: actions/checkout@master
-      if: github.event_name != 'pull_request' && (github.event_name == 'schedule' && env.CHANGE_STATE != 'changed')
+      if: github.event_name != 'pull_request'
     - name: Build ${{ matrix.dir_tag.tag }} and push
-      if: github.event_name != 'pull_request' && (github.event_name == 'schedule' && env.CHANGE_STATE != 'changed')
+      if: github.event_name != 'pull_request'
       run: |
         echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u poad --password-stdin && \
         IMAGRE_NAME=poad/aws-cdk-docker:node${{ matrix.versions.node }}-jdk${{ matrix.versions.java }}-${{ matrix.versions.ubuntu }} && \
