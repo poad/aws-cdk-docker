@@ -16,12 +16,14 @@ ARG PYTHON_GET_PIP_SHA256
 
 WORKDIR /tmp
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 RUN apt-get update -qq \
  && apt-get install --no-install-recommends -qqy unzip \
  && curl -sLo setup_${NODE_VERSION}.x.sh https://deb.nodesource.com/setup_${NODE_VERSION}.x \
  && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
  && unzip awscliv2.zip \
- && wget -O get-pip.py "${PYTHON_GET_PIP_URL}" \
+ && curl -sLo get-pip.py "${PYTHON_GET_PIP_URL}" \
  && echo "${PYTHON_GET_PIP_SHA256} *get-pip.py" | sha256sum -c - \
  && curl -sLo yarnpkg.gpg.pub https://dl.yarnpkg.com/debian/pubkey.gpg
 
@@ -37,6 +39,8 @@ COPY --from=downloader /tmp/setup_${NODE_VERSION}.x.sh /tmp/setup_${NODE_VERSION
 COPY --from=downloader /tmp/aws /tmp/aws
 COPY --from=downloader /tmp/get-pip.py /tmp/get-pip.py
 COPY --from=downloader /tmp/yarnpkg.gpg.pub /tmp/yarnpkg.gpg.pub
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN mkdir -p /usr/share/man/man1 \
  && chmod +x /tmp/setup_${NODE_VERSION}.x.sh\
