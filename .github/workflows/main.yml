@@ -52,6 +52,8 @@ jobs:
       run: |
         IMAGRE_NAME=poad/aws-cdk-docker:node${{ matrix.versions.node }}-jdk${{ matrix.versions.java }}-${{ matrix.versions.ubuntu }} && \
         docker build --build-arg JAVA_VERSION=${{ matrix.versions.java }} --build-arg NODE_VERSION=${{ matrix.versions.node }} --build-arg UBUNTU_VERSION=${{ matrix.versions.ubuntu }} -t ${IMAGRE_NAME} .
+    - name: Hadolint
+      uses: brpaz/hadolint-action@master
 
   docker_push:
     runs-on: ubuntu-latest
