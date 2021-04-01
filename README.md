@@ -1,6 +1,7 @@
 # aws-cdk-docker
 
 ![Docker build and push](https://github.com/poad/aws-cdk-docker/workflows/Docker%20build%20and%20push/badge.svg)
+[![Docker build and push](https://github.com/poad/aws-cdk-docker/actions/workflows/main.yml/badge.svg)](https://github.com/poad/aws-cdk-docker/actions/workflows/main.yml)
 [![GitHub issues](https://img.shields.io/github/issues/poad/aws-cdk-docker.svg "GitHub issues")](https://github.com/poad/aws-cdk-docker)
 [![GitHub stars](https://img.shields.io/github/stars/poad/aws-cdk-docker.svg "GitHub stars")](https://github.com/poad/aws-cdk-docker)
 
